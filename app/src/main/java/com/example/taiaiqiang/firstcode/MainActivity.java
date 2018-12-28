@@ -18,7 +18,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends BaseActivity {
     private static final String TAG = "MainActivity";
     private IntentFilter intentFilter;
     private  NetworkChangeReceiver networkChangeReceiver;
@@ -37,13 +37,14 @@ public class MainActivity extends AppCompatActivity {
 
     }
     public void sendBroad(){
-        Button button = (Button) findViewById(R.id.send);
+        Button button = (Button) findViewById(R.id.force_offline);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Toast.makeText(MainActivity.this,"send myBroad",Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent("com.example.taiaiqiang.firstcode.myB");
-                intent.setComponent(new ComponentName("com.example.taiaiqiang.firstcode","com.example.taiaiqiang.firstcode.MyBroadcastReceiver"));
+                Intent intent = new Intent("com.example.taiaiqiang.firstcode.force_offline");
+                //静态receiver 需要加上这个代码
+                //intent.setComponent(new ComponentName("com.example.taiaiqiang.firstcode","com.example.taiaiqiang.firstcode.ForceOfflineReceiver"));
                 sendBroadcast(intent);
             }
         });
@@ -52,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        unregisterReceiver(networkChangeReceiver);
+       // unregisterReceiver(networkChangeReceiver);
     }
 
     class NetworkChangeReceiver extends BroadcastReceiver{
